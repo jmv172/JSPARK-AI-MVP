@@ -4,453 +4,531 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J-SPARK AI | Intelligence Without Borders</title>
-<meta name="description" content="J-SPARK AI — an intelligent workspace for learning, creating and exploring.">
+<title>J-SPARK AI</title>
 <style>
 :root {
-  --bg:#080c18; --panel:#10182a; --panel2:#151f35;
-  --line:#263550; --text:#f2f6ff; --muted:#9baac4;
-  --blue:#438cff; --purple:#9b70ff; --cyan:#42d9e8;
+  --bg:#0b1020;
+  --panel:#141c30;
+  --panel2:#1c2740;
+  --text:#f4f7ff;
+  --muted:#aab6ce;
+  --accent:#6c8cff;
+  --border:#2b3855;
+  --green:#45d6a0;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;min-height:100vh;
+}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .app{display:flex;min-height:100vh}
-.sidebar{width:245px;background:#0b1221;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;flex-shrink:0}
-.brand{display:flex;align-items:center;gap:11px;margin-bottom:28px;padding:0 8px}
-.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-weight:900;font-size:19px}
-.brand strong{font-size:18px;letter-spacing:1px}
-.brand small{display:block;color:var(--cyan);font-size:9px;letter-spacing:2px;margin-top:4px}
-.nav-label{color:#71829e;font-size:10px;letter-spacing:2px;margin:18px 10px 8px}
-.nav button{width:100%;border:0;background:transparent;color:var(--muted);padding:11px 12px;border-radius:9px;text-align:left;margin:2px 0}
-.nav button:hover,.nav button.active{background:#1a2b49;color:white}
-.nav button.active{border-left:3px solid var(--cyan)}
-.sidebar-bottom{margin-top:auto;color:var(--muted);font-size:11px;padding:12px}
-.main{flex:1;min-width:0}
-.topbar{height:67px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 25px;background:#0b1221}
-.topbar-title{font-weight:700}
-.status{font-size:11px;color:var(--cyan);border:1px solid #28505a;padding:7px 10px;border-radius:20px}
-.content{max-width:1200px;margin:auto;padding:30px}
-.page{display:none}.page.active{display:block}
-.hero{padding:32px;border:1px solid #30466b;border-radius:20px;background:radial-gradient(circle at 85% 20%,#30245b 0,transparent 38%),linear-gradient(120deg,#101d38,#101427);margin-bottom:25px}
-.hero h1{font-size:clamp(28px,5vw,48px);margin:12px 0}
-.gradient{background:linear-gradient(90deg,#55c7ff,#ad83ff);background-clip:text;color:transparent}
-.hero p{color:var(--muted);max-width:620px;line-height:1.7}
-.eyebrow{font-size:11px;letter-spacing:3px;color:var(--cyan)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:20px}
-.card h3{margin:8px 0}.card p{color:var(--muted);font-size:13px;line-height:1.6}
-.card-icon{font-size:25px}
-.card button{margin-top:10px}
-.primary,.secondary,.danger{border:0;border-radius:9px;padding:11px 16px;color:white;font-weight:650}
-.primary{background:linear-gradient(100deg,#347fe8,#7956df)}
-.secondary{background:#243653}
-.danger{background:#672d3b}
-button:disabled{opacity:.45;cursor:not-allowed}
-.section-title{display:flex;justify-content:space-between;align-items:center;margin:28px 0 15px}
-.section-title h2{font-size:19px;margin:0}
-.field{width:100%;background:#0b1425;border:1px solid var(--line);border-radius:9px;padding:12px;color:white;outline:none;margin:7px 0 13px}
-.field:focus{border-color:var(--blue)}
-textarea.field{resize:vertical;min-height:120px;line-height:1.5}
-label{font-size:12px;color:var(--muted)}
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.chat-layout{display:flex;flex-direction:column;height:calc(100vh - 130px);min-height:500px}
-.chat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.messages{flex:1;overflow:auto;padding:20px 0}
-.message{max-width:850px;margin:12px 0;padding:14px 16px;border-radius:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
-.message.user{background:#1d3151;margin-left:auto}
-.message.bot{background:var(--panel);border:1px solid var(--line)}
-.message small{display:block;color:var(--cyan);font-size:10px;margin-bottom:6px}
-.composer{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:12px}
-.composer textarea{width:100%;background:transparent;color:white;border:0;outline:0;resize:vertical;min-height:65px}
-.composer-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.notice{border:1px solid #66552c;background:#292315;color:#f6d995;border-radius:10px;padding:12px;font-size:12px;line-height:1.6;margin:14px 0}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.studio-preview{border:1px dashed #405476;padding:25px;border-radius:14px;text-align:center;color:var(--muted);min-height:140px}
-.project-item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px;border-bottom:1px solid var(--line)}
-.project-item:last-child{border:0}
-.file-preview{white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto;background:#0b1425;padding:15px;border-radius:10px;font-size:12px}
-.footer{text-align:center;color:#66758e;font-size:11px;padding:30px}
-.mobile-menu{display:none}
-@media(max-width:760px){
- .sidebar{width:68px;padding:15px 8px}
- .brand{padding:0;justify-content:center}.brand>div:last-child,.nav-label,.nav button span,.sidebar-bottom{display:none}
- .nav button{text-align:center;font-size:19px;padding:12px 5px}
- .content{padding:17px}
- .topbar{padding:0 15px}
- .hero{padding:22px}
+.sidebar{
+  width:245px;background:#10182a;padding:20px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:12px;
+}
+.logo{font-size:23px;font-weight:bold;color:#91aaff;margin-bottom:12px}
+.logo span{color:white}
+.nav button{
+  width:100%;text-align:left;padding:12px;
+  border:0;border-radius:10px;background:transparent;
+  color:var(--muted);margin:3px 0;
+}
+.nav button:hover,.nav button.active{
+  background:var(--panel2);color:white;
+}
+.sidebar-bottom{margin-top:auto}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{
+  padding:16px 22px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;
+}
+.topbar small{color:var(--muted)}
+.content{padding:24px;width:100%;max-width:1100px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+h1{font-size:30px;margin:5px 0 12px}
+h2{font-size:21px}
+.muted{color:var(--muted);line-height:1.6}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:15px;padding:18px;margin:12px 0;
+}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;margin-top:20px;
+}
+.tile{
+  background:var(--panel);border:1px solid var(--border);
+  padding:20px;border-radius:15px;cursor:pointer;
+}
+.tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tile strong{display:block;margin-bottom:8px}
+.btn{
+  background:var(--accent);color:white;border:0;
+  padding:11px 16px;border-radius:9px;font-weight:bold;
+}
+.btn.secondary{background:var(--panel2);border:1px solid var(--border)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.field{
+  width:100%;background:#0e1729;color:white;
+  border:1px solid var(--border);border-radius:10px;
+  padding:12px;margin:7px 0 13px;outline:none;
+}
+.field:focus{border-color:var(--accent)}
+textarea.field{min-height:110px;resize:vertical}
+.chat-layout{display:flex;flex-direction:column;height:68vh;min-height:440px}
+.messages{
+  flex:1;overflow:auto;padding:12px 2px;
+  display:flex;flex-direction:column;gap:13px;
+}
+.message{
+  padding:13px 15px;border-radius:13px;
+  max-width:88%;white-space:pre-wrap;line-height:1.55;
+  overflow-wrap:anywhere;
+}
+.message.user{background:#304477;align-self:flex-end}
+.message.bot{background:var(--panel2);align-self:flex-start}
+.message.error{border:1px solid #d56b75}
+.message .who{font-size:11px;color:#bdc9e3;margin-bottom:5px}
+.composer{display:flex;gap:9px;align-items:flex-end}
+.composer textarea{flex:1;min-height:52px;max-height:130px}
+.status{font-size:12px;color:var(--muted);margin-top:9px}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;
+  background:#233251;color:#c4d2ff;font-size:12px}
+.list-item{
+  padding:12px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:10px;
+}
+a{color:#9cb4ff}
+footer{text-align:center;color:var(--muted);padding:22px;font-size:12px}
+@media(max-width:700px){
+ .app{display:block}
+ .sidebar{width:100%;border-right:0;border-bottom:1px solid var(--border)}
+ .nav{display:grid;grid-template-columns:repeat(3,1fr)}
+ .nav button{text-align:center;font-size:12px;padding:9px 3px}
+ .sidebar-bottom{display:none}
+ .content{padding:15px}
+ .chat-layout{height:65vh}
 }
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand">
-    <div class="logo">JS</div>
-    <div><strong>J-SPARK AI</strong><small>INTELLIGENCE WITHOUT BORDERS</small></div>
-  </div>
+  <div class="logo">J-SPARK <span>AI</span></div>
   <div class="nav">
-    <div class="nav-label">WORKSPACE</div>
-    <button class="active" data-page="home">⌂ <span>Home</span></button>
-    <button data-page="chat">✧ <span>AI Chat</span></button>
-    <button data-page="coder">⌘ <span>AI Coder</span></button>
-    <button data-page="research">⌕ <span>Research</span></button>
-    <button data-page="writer">✎ <span>AI Writer</span></button>
-    <div class="nav-label">CREATE</div>
-    <button data-page="documents">▤ <span>Documents</span></button>
-    <button data-page="image">▧ <span>Image Studio</span></button>
-    <button data-page="music">♫ <span>Music Studio</span></button>
-    <button data-page="video">▶ <span>Video Studio</span></button>
-    <button data-page="companion">◉ <span>Companion</span></button>
-    <div class="nav-label">PERSONAL</div>
-    <button data-page="projects">▣ <span>My Projects</span></button>
-    <button data-page="settings">⚙ <span>Settings</span></button>
+    <button class="active" data-page="home">⌂ Home</button>
+    <button data-page="chat">✦ AI Chat</button>
+    <button data-page="coder">⌘ Coder</button>
+    <button data-page="research">⌕ Research</button>
+    <button data-page="writer">✎ Writer</button>
+    <button data-page="documents">▤ Documents</button>
+    <button data-page="projects">▣ Projects</button>
+    <button data-page="studio">◈ Creative Studio</button>
+    <button data-page="companion">☀ Study Companion</button>
+    <button data-page="settings">⚙ Settings</button>
   </div>
-  <div class="sidebar-bottom">J-SPARK AI · MVP VERSION<br>Built for learning and creativity</div>
+  <div class="sidebar-bottom muted">
+    <small>J-SPARK AI · Version 2.0</small>
+  </div>
 </aside>
 
 <main class="main">
 <header class="topbar">
-  <div class="topbar-title" id="pageTitle">J-SPARK AI</div>
-  <div class="toolbar">
-    <span class="status">● FRONTEND ONLINE</span>
-    <select id="language" class="field" style="width:auto;margin:0;padding:8px">
-      <option>English</option><option>Kinyarwanda</option><option>French</option>
-      <option>Kiswahili</option><option>Spanish</option><option>Chinese</option>
-      <option>Arabic</option>
-    </select>
-  </div>
+  <div><strong id="pageTitle">Home</strong><br>
+  <small>Ideas become innovation.</small></div>
+  <span class="tag" id="connectionStatus">Backend not configured</span>
 </header>
 
 <div class="content">
-<!-- HOME -->
+
 <section class="page active" id="home">
-  <div class="hero">
-    <div class="eyebrow">WELCOME TO YOUR AI WORKSPACE</div>
-    <h1>Think bigger.<br><span class="gradient">Create without limits.</span></h1>
-    <p>Welcome to J-SPARK AI — your workspace for learning, coding, writing, research and creativity.</p>
-    <button class="primary" onclick="showPage('chat')">Start a conversation →</button>
+  <h1>Welcome to J-SPARK AI</h1>
+  <p class="muted">Your multilingual AI workspace for learning, creativity, research and development.</p>
+  <div class="card">
+    <span class="tag">J-SPARK AI 2.0</span>
+    <h2>Think. Create. Build.</h2>
+    <p class="muted">Choose a workspace to get started. Connect the secure AI backend to activate real AI responses.</p>
+    <button class="btn" onclick="showPage('chat')">Start a conversation</button>
   </div>
-  <div class="section-title"><h2>Explore your tools</h2></div>
   <div class="grid">
-    <div class="card"><div class="card-icon">✧</div><h3>AI Chat</h3><p>Ask questions and explore ideas with the chat workspace.</p><button class="secondary" onclick="showPage('chat')">Open Chat</button></div>
-    <div class="card"><div class="card-icon">⌘</div><h3>AI Coder</h3><p>Plan programs, understand code and solve programming problems.</p><button class="secondary" onclick="showPage('coder')">Open Coder</button></div>
-    <div class="card"><div class="card-icon">⌕</div><h3>Research</h3><p>Organize research questions and develop study plans.</p><button class="secondary" onclick="showPage('research')">Research</button></div>
-    <div class="card"><div class="card-icon">✎</div><h3>AI Writer</h3><p>Draft essays, reports, letters and other documents.</p><button class="secondary" onclick="showPage('writer')">Open Writer</button></div>
-    <div class="card"><div class="card-icon">▤</div><h3>Documents</h3><p>Upload text documents and view their contents.</p><button class="secondary" onclick="showPage('documents')">Open Documents</button></div>
-    <div class="card"><div class="card-icon">♫</div><h3>Creative Studio</h3><p>Explore the planned image, music and video creation tools.</p><button class="secondary" onclick="showPage('image')">Explore Studio</button></div>
+    <div class="tile" onclick="showPage('chat')"><strong>✦ AI Chat</strong><span class="muted">Ask questions and learn.</span></div>
+    <div class="tile" onclick="showPage('coder')"><strong>⌘ Coder</strong><span class="muted">Build and understand code.</span></div>
+    <div class="tile" onclick="showPage('research')"><strong>⌕ Research</strong><span class="muted">Explore topics and ideas.</span></div>
+    <div class="tile" onclick="showPage('writer')"><strong>✎ Writer</strong><span class="muted">Prepare and improve writing.</span></div>
+    <div class="tile" onclick="showPage('documents')"><strong>▤ Documents</strong><span class="muted">Read text documents.</span></div>
+    <div class="tile" onclick="showPage('studio')"><strong>◈ Creative Studio</strong><span class="muted">Prepare creative prompts.</span></div>
   </div>
-  <div class="notice">MVP notice: the interface and local workspace work in your browser. Real AI answers and media generation need secure service connections.</div>
 </section>
 
-<!-- CHAT -->
 <section class="page" id="chat">
-  <div class="chat-layout">
-    <div class="chat-head"><div><h2>✧ AI Chat</h2><div class="muted small">Your general assistant workspace</div></div><button class="secondary" onclick="newChat()">＋ New chat</button></div>
-<div class="notice">AI connection prepared. The live AI service will activate after secure backend deployment.</div>    <div class="messages" id="messages"><div class="message bot"><small>J-SPARK AI</small>Hello! Welcome to J-SPARK AI. What would you like to learn or create today?</div></div>
-    <div class="composer">
-      <textarea id="chatInput" placeholder="Message J-SPARK AI..."></textarea>
-      <div class="composer-bottom">
-        <div class="toolbar"><button class="secondary" onclick="startVoice()">🎙 Voice</button><button class="secondary" onclick="speakLast()">🔊 Read response</button></div>
-        <button class="primary" onclick="sendMessage()">Send ↑</button>
+  <h1>AI Chat</h1>
+  <p class="muted">Talk with J-SPARK AI in your preferred language.</p>
+  <div class="card chat-layout">
+    <div class="messages" id="messages">
+      <div class="message bot">
+        <div class="who">J-SPARK AI</div>
+        Hello! Welcome to J-SPARK AI. What would you like to explore today?
       </div>
     </div>
+    <div class="composer">
+      <textarea class="field" id="chatInput" placeholder="Write your message..."></textarea>
+      <button class="btn" id="sendBtn">Send</button>
+    </div>
+    <div class="status" id="chatStatus">Ready</div>
   </div>
+  <button class="btn secondary" id="clearChat">Clear conversation</button>
 </section>
 
-<!-- CODER -->
 <section class="page" id="coder">
-  <h2>⌘ AI Coder</h2><p class="muted">A workspace for programming questions and code ideas.</p>
-  <label>What do you want to build?</label>
-  <textarea class="field" id="coderPrompt" placeholder="Example: Create a simple calculator using HTML, CSS and JavaScript."></textarea>
-  <button class="primary" onclick="runTool('coder')">Prepare coding guidance</button>
-  <div class="card"><h3>Workspace output</h3><div id="coderOutput" class="file-preview">Your coding guidance will appear here.</div></div>
+  <h1>AI Coder</h1>
+  <p class="muted">Describe a programming task and ask J-SPARK AI for help.</p>
+  <div class="card">
+    <label>What do you want to build?</label>
+    <textarea class="field" id="coderInput" placeholder="Example: Create a Python calculator..."></textarea>
+    <button class="btn" onclick="runWorkspace('coder')">Generate code</button>
+    <pre class="field" id="coderOutput" style="white-space:pre-wrap;min-height:120px">Your coding response will appear here.</pre>
+  </div>
 </section>
 
-<!-- RESEARCH -->
 <section class="page" id="research">
-  <h2>⌕ Research Assistant</h2><p class="muted">Organize a research topic into useful study steps.</p>
-  <label>Research topic</label><input class="field" id="researchPrompt" placeholder="Enter your research topic">
-  <button class="primary" onclick="runTool('research')">Create research plan</button>
-  <div class="card"><h3>Research plan</h3><div id="researchOutput" class="file-preview">Your plan will appear here.</div></div>
+  <h1>Research Assistant</h1>
+  <p class="muted">Explore concepts, organize information and understand difficult topics.</p>
+  <div class="card">
+    <label>Research topic</label>
+    <textarea class="field" id="researchInput" placeholder="Enter your research question..."></textarea>
+    <button class="btn" onclick="runWorkspace('research')">Explore topic</button>
+    <div class="field" id="researchOutput" style="white-space:pre-wrap;min-height:120px">Your research response will appear here.</div>
+  </div>
 </section>
 
-<!-- WRITER -->
 <section class="page" id="writer">
-  <h2>✎ AI Writer</h2><p class="muted">Prepare a writing draft in your workspace.</p>
-  <label>Type of writing</label>
-  <select class="field" id="writerType"><option>Essay</option><option>School report</option><option>Business proposal</option><option>Letter</option><option>Project description</option><option>Speech</option></select>
-  <label>Topic or instructions</label><textarea class="field" id="writerPrompt" placeholder="Describe what you want to write..."></textarea>
-  <button class="primary" onclick="runTool('writer')">Create writing outline</button>
-  <div class="card"><h3>Writing workspace</h3><textarea class="field" id="writerOutput" style="min-height:220px">Your writing outline will appear here.</textarea><button class="secondary" onclick="copyText('writerOutput')">Copy draft</button></div>
+  <h1>AI Writer</h1>
+  <p class="muted">Draft, improve, explain and organize your writing.</p>
+  <div class="card">
+    <label>Writing instructions</label>
+    <textarea class="field" id="writerInput" placeholder="What would you like to write?"></textarea>
+    <button class="btn" onclick="runWorkspace('writer')">Create writing</button>
+    <div class="field" id="writerOutput" style="white-space:pre-wrap;min-height:120px">Your writing will appear here.</div>
+  </div>
 </section>
 
-<!-- DOCUMENTS -->
 <section class="page" id="documents">
-  <h2>▤ Document Assistant</h2><p class="muted">Upload a text-based document to view its contents in this browser.</p>
+  <h1>Document Reader</h1>
+  <p class="muted">Select a text document to read it in your browser. You can then ask the AI about its contents.</p>
   <div class="card">
-    <label>Select a text file (.txt, .md, .csv)</label>
-    <input class="field" type="file" id="fileInput" accept=".txt,.md,.csv,text/plain,text/markdown,text/csv">
-    <div id="fileName" class="muted small">No document selected.</div>
-    <div id="filePreview" class="file-preview">Your document text will appear here.</div>
-    <button class="secondary" onclick="copyPreview()">Copy document text</button>
-  </div>
-  <div class="notice">This MVP reads text files. PDF, Word document extraction and AI-powered document questions need additional processing and backend integration.</div>
-</section>
-
-<!-- IMAGE -->
-<section class="page" id="image">
-  <h2>▧ Image Studio</h2><p class="muted">Prepare a prompt for a future AI image-generation connection.</p>
-  <div class="card">
-    <label>Describe the image you want</label>
-    <textarea class="field" id="imagePrompt" placeholder="Describe your image idea..."></textarea>
-    <label>Image style</label>
-    <select class="field" id="imageStyle"><option>Realistic</option><option>Digital art</option><option>3D illustration</option><option>Anime</option><option>Minimalist</option><option>Scientific diagram</option></select>
-    <button class="primary" onclick="prepareMedia('image')">Prepare image prompt</button>
-    <div class="studio-preview" id="imageOutput">Your prepared prompt will appear here.</div>
-  </div>
-  <div class="notice">Real image generation is not connected yet. A compatible image-generation provider and secure backend are required.</div>
-</section>
-
-<!-- MUSIC -->
-<section class="page" id="music">
-  <h2>♫ Original Music Studio</h2><p class="muted">Develop an original music idea.</p>
-  <div class="card">
-    <label>Describe your music idea</label><textarea class="field" id="musicPrompt" placeholder="Describe the mood, theme, instruments and musical style..."></textarea>
-    <label>Music style</label><select class="field" id="musicStyle"><option>Ambient</option><option>Electronic</option><option>Afro-inspired</option><option>Classical</option><option>Pop</option><option>Instrumental</option></select>
-    <button class="primary" onclick="prepareMedia('music')">Prepare music brief</button>
-    <div class="studio-preview" id="musicOutput">Your original music brief will appear here.</div>
-  </div>
-  <div class="notice">Audio composition and downloadable music generation require a connected music-generation service.</div>
-</section>
-
-<!-- VIDEO -->
-<section class="page" id="video">
-  <h2>▶ Video Studio</h2><p class="muted">Plan a video concept and scene outline.</p>
-  <div class="card">
-    <label>Describe your video</label><textarea class="field" id="videoPrompt" placeholder="What should happen in your video?"></textarea>
-    <label>Video format</label><select class="field" id="videoStyle"><option>Educational</option><option>Documentary</option><option>Animation</option><option>Promotional</option><option>Short film</option></select>
-    <button class="primary" onclick="prepareMedia('video')">Prepare video plan</button>
-    <div class="studio-preview" id="videoOutput">Your video plan will appear here.</div>
-  </div>
-  <div class="notice">Video rendering and generation require a connected video-generation provider and backend.</div>
-</section>
-
-<!-- COMPANION -->
-<section class="page" id="companion">
-  <h2>◉ Study Companion</h2><p class="muted">A friendly, supportive study and creativity companion.</p>
-  <div class="card">
-    <label>Choose a companion style</label>
-    <select class="field" id="companionStyle"><option>Study Coach</option><option>Creative Partner</option><option>Technology Mentor</option><option>Language Practice</option></select>
-    <label>What would you like help with?</label>
-    <textarea class="field" id="companionPrompt" placeholder="Tell your study companion what you are working on..."></textarea>
-    <button class="primary" onclick="runTool('companion')">Get guidance</button>
-    <div class="file-preview" id="companionOutput">Your guidance will appear here.</div>
+    <input class="field" type="file" id="documentFile" accept=".txt,.md,.csv,.json">
+    <textarea class="field" id="documentText" placeholder="Document text will appear here..."></textarea>
+    <button class="btn" onclick="askAboutDocument()">Ask AI about this document</button>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section class="page" id="projects">
-  <div class="section-title"><h2>▣ My Projects</h2><button class="primary" onclick="createProject()">＋ New project</button></div>
-  <p class="muted">Create and save project notes in this browser.</p>
-  <div class="card" id="projectList">No projects yet. Create your first project.</div>
-  <div class="notice">Projects are stored in this browser on this device. They are not yet synced across accounts or devices.</div>
-</section>
-
-<!-- SETTINGS -->
-<section class="page" id="settings">
-  <h2>⚙ Settings</h2>
+  <h1>My Projects</h1>
+  <p class="muted">Save your ideas and notes in this browser.</p>
   <div class="card">
-    <h3>Language</h3><p>Choose your preferred interface and chat language.</p>
-    <select class="field" id="settingsLanguage" onchange="document.getElementById('language').value=this.value">
-      <option>English</option><option>Kinyarwanda</option><option>French</option><option>Kiswahili</option><option>Spanish</option><option>Chinese</option><option>Arabic</option>
-    </select>
-    <h3>Data</h3><p>Your local projects and conversation history are stored in this browser.</p>
-    <button class="danger" onclick="clearLocalData()">Clear local J-SPARK data</button>
+    <input class="field" id="projectName" placeholder="Project name">
+    <textarea class="field" id="projectDescription" placeholder="Project notes..."></textarea>
+    <button class="btn" onclick="saveProject()">Save project</button>
   </div>
-  <div class="card" style="margin-top:15px">
-    <h3>About J-SPARK AI</h3>
-    <p><strong>INTELLIGENCE WITHOUT BORDERS</strong></p>
-    <p>J-SPARK AI is an independent AI workspace project. This is its browser-based MVP.</p>
-    <p class="muted small">Version 1.0 · Frontend prototype</p>
+  <div class="card" id="projectList">No saved projects yet.</div>
+</section>
+
+<section class="page" id="studio">
+  <h1>Creative Studio</h1>
+  <p class="muted">Prepare prompts for creative tools. Actual image, music and video generation requires connected generation services.</p>
+  <div class="card">
+    <label>Choose a studio</label>
+    <select class="field" id="studioType">
+      <option>Image</option><option>Music</option><option>Video</option>
+    </select>
+    <textarea class="field" id="studioInput" placeholder="Describe your creative idea..."></textarea>
+    <button class="btn" onclick="makePrompt()">Prepare prompt</button>
+    <textarea class="field" id="studioOutput" placeholder="Your prepared prompt will appear here..."></textarea>
+    <button class="btn secondary" onclick="copyStudioPrompt()">Copy prompt</button>
   </div>
 </section>
 
-<div class="footer">J-SPARK AI · INTELLIGENCE WITHOUT BORDERS</div>
+<section class="page" id="companion">
+  <h1>Study Companion</h1>
+  <p class="muted">A friendly, supportive learning assistant for schoolwork and personal development.</p>
+  <div class="card">
+    <textarea class="field" id="companionInput" placeholder="What would you like help studying?"></textarea>
+    <button class="btn" onclick="runWorkspace('companion')">Ask your study companion</button>
+    <div class="field" id="companionOutput" style="white-space:pre-wrap;min-height:120px">Your learning support will appear here.</div>
+  </div>
+</section>
+
+<section class="page" id="settings">
+  <h1>Settings</h1>
+  <div class="card">
+    <label>Interface language</label>
+    <select class="field" id="language">
+      <option>English</option>
+      <option>Kinyarwanda</option>
+      <option>French</option>
+      <option>Swahili</option>
+      <option>Spanish</option>
+      <option>Arabic</option>
+      <option>Chinese</option>
+    </select>
+    <p class="muted">The language selection is sent with AI requests.</p>
+    <button class="btn secondary" onclick="checkConnection()">Check backend connection</button>
+    <p id="settingsStatus" class="muted">Backend not configured.</p>
+  </div>
+  <div class="card">
+    <h2>About</h2>
+    <p class="muted">J-SPARK AI is an independent AI workspace project. AI features require a secure backend and connected providers.</p>
+  </div>
+</section>
+
 </div>
+<footer>J-SPARK AI · Built for learning, creativity and innovation.</footer>
 </main>
 </div>
 
 <script>
-const titles = {
- home:"J-SPARK AI",chat:"AI Chat",coder:"AI Coder",research:"Research",
- writer:"AI Writer",documents:"Documents",image:"Image Studio",
- music:"Music Studio",video:"Video Studio",companion:"Study Companion",
- projects:"My Projects",settings:"Settings"
-};
+/* CONFIGURATION
+   Replace this URL only after your backend is deployed.
+   Never put your Gemini API key in this file.
+*/
+const API_BASE_URL = "https://YOUR-BACKEND-URL";
 
-let lastResponse = "";
-let conversation = JSON.parse(localStorage.getItem("jspark_chat") || "[]");
+let conversation = [];
 
 function showPage(name){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(name).classList.add("active");
- document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
- document.getElementById("pageTitle").textContent=titles[name] || "J-SPARK AI";
- if(name==="projects") renderProjects();
- window.scrollTo(0,0);
-}
-document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
-
-function addMessage(text,who){
- const area=document.getElementById("messages");
- const div=document.createElement("div");
- div.className="message "+who;
- const small=document.createElement("small");
- small.textContent=who==="user"?"YOU":"J-SPARK AI · DEMO";
- const body=document.createElement("div");
- body.textContent=text;
- div.append(small,body);area.appendChild(div);
- area.scrollTop=area.scrollHeight;
- return div;
-}
-function demoReply(message){
- const m=message.toLowerCase();
- if(m.includes("hello")||m.includes("hi")) return "Hello! Welcome to J-SPARK AI. What are you working on today?";
- if(m.includes("code")||m.includes("program")) return "Let's approach your programming task step by step:\n\n1. Define the problem.\n2. Identify the inputs and expected outputs.\n3. Choose a programming language.\n4. Build a small first version.\n5. Test it and improve it.\n\nTell me what you want to build.";
- if(m.includes("study")||m.includes("school")||m.includes("exam")) return "Let's make a study plan:\n\n1. Identify the topic.\n2. Review the key concepts.\n3. Practise questions.\n4. Check your answers.\n5. Review anything you found difficult.\n\nWhich subject are you studying?";
- if(m.includes("write")||m.includes("essay")) return "A useful writing structure is:\n\n• Introduction: introduce the topic and main idea.\n• Body: explain your main points with examples.\n• Conclusion: summarize the argument.\n\nShare your topic and I can help you plan it.";
- return "Thanks for your message! This J-SPARK AI preview is running in demo mode. It can demonstrate the workspace, but it is not connected to a real AI model yet.\n\nYour message: "+message+"\n\nTo receive genuine AI-generated answers, we need to connect a secure backend to an AI provider.";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const page=document.getElementById(name);
+  if(!page)return;
+  page.classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===name);
+  });
+  document.getElementById("pageTitle").textContent =
+    name.charAt(0).toUpperCase()+name.slice(1);
+  if(name==="projects")renderProjects();
 }
 
-async function sendMessage(){
-  
-{
- const input=document.getElementById("chatInput");
- const msg=input.value.trim();if(!msg)return;
- addMessage(msg,"user");
- const answer=demoReply(msg);lastResponse=answer;addMessage(answer,"bot");
- conversation.push({user:msg,assistant:answer});
- localStorage.setItem("jspark_chat",JSON.stringify(conversation));
- input.value="";
+document.querySelectorAll(".nav button").forEach(button=>{
+  button.addEventListener("click",()=>showPage(button.dataset.page));
+});
+
+function addMessage(text,role="bot",isError=false){
+  const box=document.getElementById("messages");
+  const item=document.createElement("div");
+  item.className="message "+role+(isError?" error":"");
+  const who=document.createElement("div");
+  who.className="who";
+  who.textContent=role==="user"?"You":"J-SPARK AI";
+  const content=document.createElement("div");
+  content.textContent=text;
+  item.append(who,content);
+  box.appendChild(item);
+  box.scrollTop=box.scrollHeight;
+  return content;
 }
+
+async function callAI(message,mode="chat"){
+  if(!API_BASE_URL || API_BASE_URL.includes("YOUR-BACKEND-URL")){
+    throw new Error("The AI backend has not been deployed yet. The website is prepared, but a backend URL is still required.");
+  }
+
+  const response=await fetch(API_BASE_URL.replace(/\/$/,"")+"/chat",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      messages:[{role:"user",content:message}],
+      language:document.getElementById("language")?.value || "English",
+      mode:mode
+    })
+  });
+
+  if(!response.ok){
+    const detail=await response.text();
+    throw new Error("AI service returned "+response.status+". "+detail.slice(0,250));
+  }
+
+  const data=await response.json();
+  if(!data.reply)throw new Error("The AI service returned no reply.");
+  return data.reply;
+}
+
+async function sendChat(){
+  const input=document.getElementById("chatInput");
+  const button=document.getElementById("sendBtn");
+  const message=input.value.trim();
+  if(!message)return;
+
+  input.value="";
+  addMessage(message,"user");
+  const waiting=addMessage("Thinking...","bot");
+  button.disabled=true;
+  document.getElementById("chatStatus").textContent="Connecting to AI...";
+
+  try{
+    const answer=await callAI(message,"chat");
+    waiting.textContent=answer;
+    conversation.push({user:message,assistant:answer});
+    localStorage.setItem("jspark_chat",JSON.stringify(conversation));
+    document.getElementById("chatStatus").textContent="Response received";
+  }catch(error){
+    waiting.textContent=error.message;
+    waiting.parentElement.classList.add("error");
+    document.getElementById("chatStatus").textContent="AI connection unavailable";
+  }finally{
+    button.disabled=false;
+    input.focus();
+  }
+}
+
+document.getElementById("sendBtn").addEventListener("click",sendChat);
 document.getElementById("chatInput").addEventListener("keydown",e=>{
- if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}
+  if(e.key==="Enter"&&!e.shiftKey){
+    e.preventDefault();
+    sendChat();
+  }
 });
-function newChat(){
- document.getElementById("messages").innerHTML="";
- addMessage("New conversation started. What would you like to explore?","bot");
-}
-function speakLast(){
- if(!lastResponse){alert("There is no response to read yet.");return;}
- if(!("speechSynthesis" in window)){alert("Speech output is not supported by this browser.");return;}
- const utterance=new SpeechSynthesisUtterance(lastResponse);
- window.speechSynthesis.speak(utterance);
-}
-function startVoice(){
- const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){alert("Voice input is not supported in this browser. Try a supported browser.");return;}
- const recognition=new SpeechRecognition();
- recognition.lang="en-US";recognition.interimResults=false;
- recognition.onresult=e=>{document.getElementById("chatInput").value=e.results[0][0].transcript;};
- recognition.onerror=()=>alert("Voice input could not be completed.");
- recognition.start();
-}
-function runTool(type){
- const lang=document.getElementById("language").value;
- let prompt="",output="",target="";
- if(type==="coder"){
-  prompt=document.getElementById("coderPrompt").value.trim();target="coderOutput";
-  output="CODING PLAN\n\n1. Understand the problem.\n2. List the required features.\n3. Choose the right tools and language.\n4. Build the smallest working version.\n5. Test the result.\n\nYour request:\n"+prompt+"\n\nDemo mode: connect an AI backend for real code generation.";
- }else if(type==="research"){
-  prompt=document.getElementById("researchPrompt").value.trim();target="researchOutput";
-  output="RESEARCH PLAN\n\nTopic: "+prompt+"\n\n1. Introduce the topic.\n2. Define the research problem.\n3. Write research questions.\n4. Identify reliable sources.\n5. Collect and organize information.\n6. Analyse findings.\n7. Write a conclusion.\n\nDemo mode: connect an AI backend for real research assistance.";
- }else if(type==="writer"){
-  prompt=document.getElementById("writerPrompt").value.trim();target="writerOutput";
-  output=document.getElementById("writerType").value.toUpperCase()+" OUTLINE\n\nTitle: "+prompt+"\n\nINTRODUCTION\nIntroduce the subject and explain its importance.\n\nMAIN BODY\n1. First key point and explanation.\n2. Second key point and supporting example.\n3. Third key point and discussion.\n\nCONCLUSION\nSummarize the main ideas.\n\nDemo outline — connect an AI backend for a complete generated draft.";
- }else{
-  prompt=document.getElementById("companionPrompt").value.trim();target="companionOutput";
-  output="YOUR "+document.getElementById("companionStyle").value.toUpperCase()+"\n\nLet's break your task into manageable steps:\n\n1. Tell yourself what you want to achieve.\n2. Choose one small task to start with.\n3. Work through it carefully.\n4. Review what you have learned.\n5. Decide on the next step.\n\nYour topic: "+prompt+"\n\nDemo guidance — connect an AI backend for personalized responses.";
- }
- if(!prompt){alert("Please enter a topic or message first.");return;}
- document.getElementById(target).textContent=output;
-}
-function prepareMedia(type){
- const prompt=document.getElementById(type+"Prompt").value.trim();
- if(!prompt){alert("Please describe your idea first.");return;}
- let style="";
- if(type==="image")style=document.getElementById("imageStyle").value;
- if(type==="music")style=document.getElementById("musicStyle").value;
- if(type==="video")style=document.getElementById("videoStyle").value;
- const result="PREPARED "+type.toUpperCase()+" BRIEF\n\nIdea: "+prompt+"\nStyle: "+style+"\n\nThis brief is ready to send to a connected "+type+" generation service. Actual media generation is not connected in this version.";
- document.getElementById(type+"Output").textContent=result;
-}
-function copyText(id){
- const el=document.getElementById(id);
- navigator.clipboard.writeText(el.value||el.textContent).then(()=>alert("Copied!")).catch(()=>alert("Copy is unavailable. Select and copy the text manually."));
-}
-function copyPreview(){
- const text=document.getElementById("filePreview").textContent;
- navigator.clipboard.writeText(text).then(()=>alert("Copied!")).catch(()=>alert("Please select and copy the text."));
-}
-document.getElementById("fileInput").addEventListener("change",async e=>{
- const file=e.target.files[0];if(!file)return;
- document.getElementById("fileName").textContent="Selected: "+file.name;
- if(file.size>2000000){alert("Please select a text file smaller than 2 MB.");return;}
- try{
-  const text=await file.text();
-  document.getElementById("filePreview").textContent=text;
- }catch(err){document.getElementById("filePreview").textContent="Could not read this file.";}
+document.getElementById("clearChat").addEventListener("click",()=>{
+  conversation=[];
+  localStorage.removeItem("jspark_chat");
+  document.getElementById("messages").innerHTML="";
+  addMessage("Conversation cleared. What shall we explore next?");
 });
-function createProject(){
- const name=prompt("Enter your project name:");
- if(!name||!name.trim())return;
- const projects=JSON.parse(localStorage.getItem("jspark_projects")||"[]");
- projects.push({name:name.trim(),date:new Date().toLocaleString(),notes:""});
- localStorage.setItem("jspark_projects",JSON.stringify(projects));
- renderProjects();
+
+async function runWorkspace(mode){
+  const input=document.getElementById(mode+"Input");
+  const output=document.getElementById(mode+"Output");
+  const message=input.value.trim();
+  if(!message){output.textContent="Please enter your question first.";return;}
+  output.textContent="J-SPARK AI is preparing a response...";
+  try{
+    const prompt=mode==="coder"
+      ?"Act as a programming tutor. Help with this coding task. Explain the code clearly:\n"+message
+      :mode==="research"
+      ?"Help research and explain this topic. Distinguish established facts from uncertainty:\n"+message
+      :mode==="writer"
+      ?"Help with this writing task. Produce a useful, original draft:\n"+message
+      : "Act as a friendly, age-appropriate study companion. Help the learner understand and study:\n"+message;
+    output.textContent=await callAI(prompt,mode);
+  }catch(error){
+    output.textContent=error.message;
+  }
 }
+
+document.getElementById("documentFile").addEventListener("change",async event=>{
+  const file=event.target.files[0];
+  if(!file)return;
+  try{
+    document.getElementById("documentText").value=await file.text();
+  }catch(e){
+    alert("Could not read this file.");
+  }
+});
+
+function askAboutDocument(){
+  const text=document.getElementById("documentText").value.trim();
+  if(!text){alert("Upload or paste a text document first.");return;}
+  showPage("chat");
+  document.getElementById("chatInput").value=
+    "Please explain and summarize this document:\n\n"+text.slice(0,12000);
+  document.getElementById("chatInput").focus();
+}
+
+function getProjects(){
+  try{return JSON.parse(localStorage.getItem("jspark_projects")||"[]");}
+  catch(e){return [];}
+}
+
+function saveProject(){
+  const name=document.getElementById("projectName").value.trim();
+  const description=document.getElementById("projectDescription").value.trim();
+  if(!name){alert("Enter a project name.");return;}
+  const projects=getProjects();
+  projects.push({name,description,date:new Date().toLocaleString()});
+  localStorage.setItem("jspark_projects",JSON.stringify(projects));
+  document.getElementById("projectName").value="";
+  document.getElementById("projectDescription").value="";
+  renderProjects();
+}
+
 function renderProjects(){
- const projects=JSON.parse(localStorage.getItem("jspark_projects")||"[]");
- const list=document.getElementById("projectList");list.innerHTML="";
- if(!projects.length){list.textContent="No projects yet. Create your first project.";return;}
- projects.forEach((p,i)=>{
-  const item=document.createElement("div");item.className="project-item";
-  const info=document.createElement("div");
-  const strong=document.createElement("strong");strong.textContent=p.name;
-  const date=document.createElement("div");date.className="muted small";date.textContent=p.date;
-  info.append(strong,date);
-  const actions=document.createElement("div");actions.className="toolbar";
-  const edit=document.createElement("button");edit.className="secondary";edit.textContent="Notes";
-  edit.onclick=()=>editProject(i);
-  const del=document.createElement("button");del.className="danger";del.textContent="Delete";
-  del.onclick=()=>deleteProject(i);
-  actions.append(edit,del);item.append(info,actions);list.append(item);
- });
+  const box=document.getElementById("projectList");
+  const projects=getProjects();
+  box.innerHTML="";
+  if(!projects.length){box.textContent="No saved projects yet.";return;}
+  projects.forEach((project,index)=>{
+    const item=document.createElement("div");
+    item.className="list-item";
+    const info=document.createElement("div");
+    const title=document.createElement("strong");
+    title.textContent=project.name;
+    const desc=document.createElement("p");
+    desc.className="muted";
+    desc.textContent=project.description;
+    const date=document.createElement("small");
+    date.className="muted";
+    date.textContent=project.date;
+    info.append(title,desc,date);
+    const del=document.createElement("button");
+    del.className="btn secondary";
+    del.textContent="Delete";
+    del.onclick=()=>{
+      const updated=getProjects();
+      updated.splice(index,1);
+      localStorage.setItem("jspark_projects",JSON.stringify(updated));
+      renderProjects();
+    };
+    item.append(info,del);
+    box.append(item);
+  });
 }
-function editProject(i){
- const projects=JSON.parse(localStorage.getItem("jspark_projects")||"[]");
- const notes=prompt("Write or update project notes:",projects[i].notes||"");
- if(notes===null)return;
- projects[i].notes=notes;localStorage.setItem("jspark_projects",JSON.stringify(projects));renderProjects();
+
+function makePrompt(){
+  const type=document.getElementById("studioType").value;
+  const idea=document.getElementById("studioInput").value.trim();
+  if(!idea){alert("Describe your creative idea first.");return;}
+  document.getElementById("studioOutput").value=
+    "Create an original "+type.toLowerCase()+" based on this idea:\n"+
+    idea+"\n\nDevelop the concept with clear details, coherent style and high creative quality.";
 }
-function deleteProject(i){
- if(!confirm("Delete this project?"))return;
- const projects=JSON.parse(localStorage.getItem("jspark_projects")||"[]");
- projects.splice(i,1);localStorage.setItem("jspark_projects",JSON.stringify(projects));renderProjects();
+
+async function copyStudioPrompt(){
+  const text=document.getElementById("studioOutput").value;
+  if(!text){alert("Prepare a prompt first.");return;}
+  try{
+    await navigator.clipboard.writeText(text);
+    alert("Prompt copied.");
+  }catch(e){
+    alert("Select and copy the prompt manually.");
+  }
 }
-function clearLocalData(){
- if(!confirm("This will clear your local projects and chat history. Continue?"))return;
- localStorage.removeItem("jspark_projects");localStorage.removeItem("jspark_chat");
- conversation=[];renderProjects();alert("Local J-SPARK data cleared.");
+
+async function checkConnection(){
+  const status=document.getElementById("settingsStatus");
+  const badge=document.getElementById("connectionStatus");
+  if(API_BASE_URL.includes("YOUR-BACKEND-URL")){
+    status.textContent="Backend URL has not been configured. Deployment is still required.";
+    badge.textContent="Backend not configured";
+    return;
+  }
+  status.textContent="Checking backend...";
+  try{
+    const response=await fetch(API_BASE_URL.replace(/\/$/,"")+"/health");
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    status.textContent="Backend reachable. Gemini configured: "+data.gemini_configured;
+    badge.textContent=data.gemini_configured?"Backend connected":"Backend needs API key";
+  }catch(error){
+    status.textContent="Could not reach backend: "+error.message;
+    badge.textContent="Connection unavailable";
+  }
 }
-document.getElementById("language").addEventListener("change",e=>{
- document.getElementById("settingsLanguage").value=e.target.value;
-});
+
+renderProjects();
 </script>
-  <script src="config.js"></script>
-<script src="api.js"></script>
 </body>
 </html>
