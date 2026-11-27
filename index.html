@@ -326,54 +326,7 @@ function demoReply(message){
 }
 
 async function sendMessage(){
-  const input = document.getElementById("chatInput");
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  const sendButton = document.querySelector(
-    '#chat button[onclick="sendMessage()"]'
-  );
-
-  input.value = "";
-  if (sendButton) sendButton.disabled = true;
-
-  addMessage(msg, "user");
-
-  const waiting = addMessage("Thinking...", "bot");
-
-  try {
-    if (!window.JSPARK_API) {
-      throw new Error("API connection files are not loaded.");
-    }
-
-    const answer = await window.JSPARK_API.chat(
-      msg,
-      document.getElementById("language").value,
-      "chat"
-    );
-
-    waiting.lastElementChild.textContent = answer;
-    waiting.querySelector("small").textContent = "J-SPARK AI";
-    lastResponse = answer;
-
-    conversation.push({
-      user: msg,
-      assistant: answer
-    });
-
-    localStorage.setItem(
-      "jspark_chat",
-      JSON.stringify(conversation)
-    );
-
-  } catch (error) {
-    waiting.lastElementChild.textContent =
-      "AI service is not available yet: " + error.message;
-  } finally {
-    if (sendButton) sendButton.disabled = false;
-    input.focus();
-  }
-}
+  
 {
  const input=document.getElementById("chatInput");
  const msg=input.value.trim();if(!msg)return;
