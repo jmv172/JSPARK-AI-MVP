@@ -1,0 +1,6 @@
+
+window.JSPARK_CONFIG = {
+  API_BASE_URL: "https://YOUR-BACKEND-URL",
+  APP_NAME: "J-SPARK AI",
+  VERSION: "2.0.0"
+};
