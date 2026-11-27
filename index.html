@@ -325,7 +325,57 @@ function demoReply(message){
  if(m.includes("write")||m.includes("essay")) return "A useful writing structure is:\n\n• Introduction: introduce the topic and main idea.\n• Body: explain your main points with examples.\n• Conclusion: summarize the argument.\n\nShare your topic and I can help you plan it.";
  return "Thanks for your message! This J-SPARK AI preview is running in demo mode. It can demonstrate the workspace, but it is not connected to a real AI model yet.\n\nYour message: "+message+"\n\nTo receive genuine AI-generated answers, we need to connect a secure backend to an AI provider.";
 }
-function sendMessage(){
+
+async function sendMessage(){
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const sendButton = document.querySelector(
+    '#chat button[onclick="sendMessage()"]'
+  );
+
+  input.value = "";
+  if (sendButton) sendButton.disabled = true;
+
+  addMessage(msg, "user");
+
+  const waiting = addMessage("Thinking...", "bot");
+
+  try {
+    if (!window.JSPARK_API) {
+      throw new Error("API connection files are not loaded.");
+    }
+
+    const answer = await window.JSPARK_API.chat(
+      msg,
+      document.getElementById("language").value,
+      "chat"
+    );
+
+    waiting.lastElementChild.textContent = answer;
+    waiting.querySelector("small").textContent = "J-SPARK AI";
+    lastResponse = answer;
+
+    conversation.push({
+      user: msg,
+      assistant: answer
+    });
+
+    localStorage.setItem(
+      "jspark_chat",
+      JSON.stringify(conversation)
+    );
+
+  } catch (error) {
+    waiting.lastElementChild.textContent =
+      "AI service is not available yet: " + error.message;
+  } finally {
+    if (sendButton) sendButton.disabled = false;
+    input.focus();
+  }
+}
+{
  const input=document.getElementById("chatInput");
  const msg=input.value.trim();if(!msg)return;
  addMessage(msg,"user");
